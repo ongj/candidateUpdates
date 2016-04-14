@@ -170,38 +170,38 @@ public class PostgreSQLClient {
      * @throws Exception
      */
     private void initialize() throws Exception {
-        String sql = "CREATE TABLE IF NOT EXISTS Account ("
+        String sql = "CREATE TABLE IF NOT EXISTS Account("
                 + "phoneNum varhcar(20) primary key, "
                 + "password varchar(20), "
                 + "fname varchar(10), "
-                + "lname varchar(10), "
+                + "lname varchar(10) "
                 + ");";
         createTables(sql);
-        sql = "CREATE TABLE IF NOT EXISTS Candidates ("
+        sql = "CREATE TABLE IF NOT EXISTS Candidates("
                 + "idCandidates serial primary key, "
                 + "fname varchar(10), "
-                + "lname varchar(10), "
+                + "lname varchar(10) "
                 + ");";
         createTables(sql);
         sql = "CREATE TABLE IF NOT EXISTS Subscription ("
                 + "phoneNum int references Account(phoneNum), "
                 + "idCandidates int references Candidates(idCandidates), "
                 + "fname text, "
-                + "lname text, "
+                + "lname text "
                 + ");";
         createTables(sql);
         sql = "CREATE TABLE IF NOT EXISTS Managers ("
                 + "idManagers serial primary key, "
                 + "idCandidates references Candidates(idCandidates) primary key, "
                 + "fname text, "
-                + "lname text, "
+                + "lname text "
                 + ");";
         createTables(sql);
         sql = "CREATE TABLE IF NOT EXISTS Alerts ("
                 + "idAlerts serial primary key, "
                 + "idCandidates references Managers(idCandidates), "
                 + "idManagers  references Managers(idManagers), "
-                + "message text, "
+                + "message text "
                 + ");";
         createTables(sql);
 
