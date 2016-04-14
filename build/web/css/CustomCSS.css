@@ -1,0 +1,71 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Feb 15, 2016, 11:53:38 PM
+    Author     : mac
+*/
+
+.accsub{
+    margin-left: 20%;
+}
+
+a:link{
+
+}
+
+.margins{
+    margin-left: -20px;
+}
+
+.form-center{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 5%;
+    margin-right: auto;
+    width: 500px;
+    height: 550px;
+    border-style: solid; 
+}
+
+.link-center{
+    margin-left: 18.2%;
+}
+
+.table-margin{
+    min-width: 1000px;
+    margin:100px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.table-color{
+    border-style: solid;
+    border-color: #000000;
+}
+
+.table-color td{
+    border-color: #000;
+}
+
+.mdmedit{
+    text-align: center;
+}
+
+.spinner{
+    margin-left: 5px;
+    width: 100px;
+}
+
+.input-group-btn{
+    width:40px;
+    display: inline;
+    background: #DDDDDD;
+}
+
+.widths{
+    width: auto;
+}
+
