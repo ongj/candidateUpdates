@@ -171,7 +171,7 @@ public class PostgreSQLClient {
      */
     private void initialize() throws Exception {
         String sql = "CREATE TABLE IF NOT EXISTS Account("
-                + "phoneNum varhcar(20) primary key, "
+                + "phoneNum varchar(20) primary key, "
                 + "password varchar(20), "
                 + "fname varchar(10), "
                 + "lname varchar(10) "
@@ -184,17 +184,17 @@ public class PostgreSQLClient {
                 + ");";
         createTables(sql);
         sql = "CREATE TABLE IF NOT EXISTS Subscription ("
-                + "phoneNum int references Account(phoneNum), "
+                + "phoneNum varchar(20) references Account(phoneNum), "
                 + "idCandidates int references Candidates(idCandidates), "
-                + "fname text, "
-                + "lname text "
+                + "fname varchar(10), "
+                + "lname varchar(10) "
                 + ");";
         createTables(sql);
         sql = "CREATE TABLE IF NOT EXISTS Managers ("
                 + "idManagers serial primary key, "
-                + "idCandidates references Candidates(idCandidates) primary key, "
-                + "fname text, "
-                + "lname text "
+                + "idCandidates int references Candidates(idCandidates), "
+                + "fname varchar(10), "
+                + "lname varchar(10) "
                 + ");";
         createTables(sql);
         sql = "CREATE TABLE IF NOT EXISTS Alerts ("
