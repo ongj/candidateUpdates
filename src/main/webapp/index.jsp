@@ -12,7 +12,7 @@
         <title>Register</title>
     </head>
     <body>
-        <form method="POST" action="candidates.jsp">                                                           
+        <form method="POST" action="userRegister">                                                           
                 Phone Number: <input name="twilio_num" id="twilio_num" type="text" value="" placeholder="+639123456789">
                 First Name: <input name="fname" id="fname" type="text" value="">
                 Last Name: <input name="lname" id="lname" type="text" value="">

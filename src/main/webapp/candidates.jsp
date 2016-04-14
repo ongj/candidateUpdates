@@ -4,6 +4,7 @@
     Author     : MCDO
 --%>
 
+<%@page import="Bean.Account"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 
@@ -12,13 +13,18 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Candidates</title>
     </head>
+    <% Account bean = (Account) request.getAttribute("user");
+
+    %>
+
+    <h1><%= bean.getLname() + " " + bean.getFname()%></h1>
     <body>
         <form method="POST" action="TwilioServlet">                                                           
-                <input type="checkbox" name="pres" value="Jejomar Binay"> Jejomar Binay<br>
-				<input type="checkbox" name="pres" value="Miriam Defensor Santiago"> Miriam Defensor Santiago<br>
-				<input type="checkbox" name="pres" value="Rodrigo Duterte"> Rodrigo Duterte<br>
-				<input type="checkbox" name="pres" value="Grace Poe"> Grace Poe<br>
-				<input type="checkbox" name="pres" value="Mar Roxas"> Mar Roxas<br>
+            <input type="checkbox" name="pres" value="Jejomar Binay"> Jejomar Binay<br>
+            <input type="checkbox" name="pres" value="Miriam Defensor Santiago"> Miriam Defensor Santiago<br>
+            <input type="checkbox" name="pres" value="Rodrigo Duterte"> Rodrigo Duterte<br>
+            <input type="checkbox" name="pres" value="Grace Poe"> Grace Poe<br>
+            <input type="checkbox" name="pres" value="Mar Roxas"> Mar Roxas<br>
             <input type="submit" value="Submit">
         </form>
     </body>
