@@ -46,12 +46,14 @@ public class Subscribe extends HttpServlet {
             Account user = (Account) request.getSession().getAttribute("user");
             db.deleteAllSubscription(user);
             pres = request.getParameterValues("pres");
+            
             if (pres != null) {
                 for (int i = 0; i < pres.length; i++) {
-                     //out.println ("<b>"+pres[i]+"<b>");
+                    //out.println ("<b>"+pres[i]+"<b>");
                     db.insertSubscribe(Integer.parseInt(pres[i]), user.getPhoneNum());
                 }
             }
+            
             response.sendRedirect("candidates.jsp");
             /*ArrayList<Candidate> c = new ArrayList<>();
             c = db.getAllCandidates();

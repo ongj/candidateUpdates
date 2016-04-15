@@ -368,7 +368,7 @@ public class PostgreSQLClient {
     }
 
     public int insertSubscribe(int idCandidate, String phoneNum) throws Exception {
-        String sql = "INSERT INTO Account (idCandidates,phoneNum) VALUES (?,?)";
+        String sql = "INSERT INTO Subscription (idCandidates,phoneNum) VALUES (?,?)";
         Connection connection = null;
         PreparedStatement statement = null;
 
