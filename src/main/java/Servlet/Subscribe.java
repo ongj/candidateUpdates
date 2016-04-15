@@ -52,7 +52,7 @@ public class Subscribe extends HttpServlet {
                     db.insertSubscribe(Integer.parseInt(pres[i]), user.getPhoneNum());
                 }
             }
-            //response.sendRedirect("candidates.jsp");
+            response.sendRedirect("candidates.jsp");
             /*ArrayList<Candidate> c = new ArrayList<>();
             c = db.getAllCandidates();
             for (int i = 0; i < c.size(); i++) {
