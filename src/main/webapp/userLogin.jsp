@@ -9,15 +9,17 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
+        <title>User Login</title>
     </head>
     <body>
-        <h1>Hello World!</h1>
+        <h1>User Login Page</h1>
 
         <form method="POST" action="userLogin">                                                           
             Phone Number: <input name="twilio_num" id="twilio_num" type="text" value="" placeholder="+639123456789">
             Password: <input name="pass" id="pass" type="password" value="">            
             <input type="submit" value="Login">
         </form>
+		</br>
+		<a href="index.jsp">Home</a>
     </body>
 </html>

@@ -108,8 +108,8 @@ public class PostgreSQLClient {
             }
         }
     }
-
-    public int deleteAllSubscription(Account bean) throws Exception {
+	
+	public int deleteAllSubscription(Account bean) throws Exception {
         String sql = "DELETE FROM Subscription WHERE phoneNum = ?";
         Connection connection = null;
         PreparedStatement statement = null;
@@ -117,6 +117,25 @@ public class PostgreSQLClient {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, bean.getPhoneNum());
+            return statement.executeUpdate();
+        } finally {
+            if (statement != null) {
+                statement.close();
+            }
+
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public int deleteAll() throws Exception {
+        String sql = "DELETE FROM posts WHERE TRUE";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(sql);
             return statement.executeUpdate();
         } finally {
             if (statement != null) {
@@ -235,16 +254,16 @@ public class PostgreSQLClient {
             connection.setAutoCommit(false);
             statement = connection.prepareStatement(sql);
             statement.setInt(1, 1);
-            statement.setString(2, "Rodrigo");
-            statement.setString(3, "Duterte");
-            statement.addBatch();
-            statement.setInt(1, 2);
             statement.setString(2, "Jejomar");
             statement.setString(3, "Binay");
             statement.addBatch();
-            statement.setInt(1, 3);
+            statement.setInt(1, 2);
             statement.setString(2, "Miriam");
             statement.setString(3, "Santiago");
+            statement.addBatch();
+            statement.setInt(1, 3);
+            statement.setString(2, "Rodrigo");
+            statement.setString(3, "Duterte");
             statement.addBatch();
             statement.setInt(1, 4);
             statement.setString(2, "Grace");
@@ -349,7 +368,7 @@ public class PostgreSQLClient {
     }
 
     public int insertSubscribe(int idCandidate, String phoneNum) throws Exception {
-        String sql = "INSERT INTO Subscription (idCandidates,phoneNum) VALUES (?,?)";
+        String sql = "INSERT INTO Account (idCandidates,phoneNum) VALUES (?,?)";
         Connection connection = null;
         PreparedStatement statement = null;
 
@@ -374,39 +393,6 @@ public class PostgreSQLClient {
 
             throw e;
         } finally {
-            if (statement != null) {
-                statement.close();
-            }
-
-            if (connection != null) {
-                connection.close();
-            }
-        }
-    }
-
-    public ArrayList<Candidate> getSubscription(Account bean) throws Exception {
-        String sql = "SELECT * FROM Subscription where phoneNum = ?;";
-        Connection connection = null;
-        PreparedStatement statement = null;
-        ResultSet results = null;
-        try {
-            connection = getConnection();
-            statement = connection.prepareStatement(sql);
-            statement.setString(1, bean.getPhoneNum());
-            results = statement.executeQuery();
-            ArrayList<Candidate> beans = new ArrayList<>();
-            while (results.next()) {
-                Candidate c = new Candidate();
-                c.setIdCandidate(results.getInt("idCandidates"));
-                beans.add(c);
-            }
-
-            return beans;
-        } finally {
-            if (results != null) {
-                results.close();
-            }
-
             if (statement != null) {
                 statement.close();
             }
@@ -458,6 +444,51 @@ public class PostgreSQLClient {
         return null;
     }
      */
+	 
+	public ArrayList<Account> getSubscriptions(Manager bean) throws Exception{
+		String sql = "SELECT * FROM Subscription where idCandidates = ?;";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet results = null;
+
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setInt(1, bean.getIdCandidates());
+            results = statement.executeQuery();
+            //out.println("hello2");
+			
+			Account a = new Account();
+            ArrayList<Account> list = new ArrayList<Account>();
+
+            while (results.next()) {
+                a.setFname(results.getString("fname"));
+                a.setLname(results.getString("lname"));
+                a.setPhoneNum(results.getString("phoneNum"));
+				list.add(a);
+            }
+
+            return list;
+
+        } catch (SQLException e) {
+            //out.println(e.getMessage());
+        } finally {
+            if (results != null) {
+                results.close();
+            }
+
+            if (statement != null) {
+                statement.close();
+            }
+
+            if (connection != null) {
+                connection.close();
+            }
+
+        }
+        return null;
+	}
+	 
     public Account AloginCheck(Account bean, PrintWriter out) throws Exception {
         String sql = "SELECT * FROM Account where phoneNum = ? and password = ?;";
         Connection connection = null;
@@ -512,13 +543,10 @@ public class PostgreSQLClient {
             statement.setString(2, bean.getPassword());
             results = statement.executeQuery();
             Manager a = new Manager();
-			while (results.next()) {
             a.setFname(results.getString("fname"));
             a.setLname(results.getString("lname"));
             a.setIdCandidates(results.getInt("idCandidates"));
             a.setIdManager(results.getInt("idManagers"));
-			System.out.println(a.getFname());
-			}
             System.out.println(a.getFname());
             return a;
         } finally {
@@ -533,7 +561,7 @@ public class PostgreSQLClient {
             if (connection != null) {
                 connection.close();
             }
-            //return null;
+            return null;
         }
     }
 }

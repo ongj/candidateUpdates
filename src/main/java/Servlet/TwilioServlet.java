@@ -6,8 +6,12 @@
 package Servlet;
 
 import Bean.TwilioConnect;
+import Bean.Manager;
+import Bean.Account;
+import Bean.PostgreSQLClient;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -100,6 +104,8 @@ public class TwilioServlet extends HttpServlet {
 			
         //processRequest(request, response);
 		
+		Manager bean = (Manager) request.getSession().getAttribute("manager");
+		
 		TwilioConnect connect = new TwilioConnect();
 		
 		final String ACCOUNT_SID = connect.getAcctSID();
@@ -111,24 +117,27 @@ public class TwilioServlet extends HttpServlet {
         
         Map<String, String> params = new HashMap<String, String>();
         
-		String[] presidents = request.getParameterValues("pres");
-		String list = "";
+		PostgreSQLClient db = new PostgreSQLClient();
+		ArrayList<Account> a = new ArrayList<Account>();
+		try{
+			a = db.getSubscriptions(bean);
 		
-		for (int i = 0; i < presidents.length; i++){
-			list = list.concat(presidents + "\n");
+		for(int i=0; i < a.size(); i++){
+			params.put("From", "+12016902137");
+			params.put("Body", request.getParameter("smsmsg"));
+			params.put("To", a.get(i).getPhoneNum());
+			
+			SmsFactory msgFactory = client.getAccount().getSmsFactory();
+			try {
+				msg = msgFactory.create(params);
+			}
+			catch (TwilioRestException e) {
+				throw new ServletException(e);
+			}
 		}
-		
-        params.put("From", "+12016902137");
-        params.put("Body", "You have chosen to follow the following candidates: \n" + list + "\n Thank you for using MCDO campaign mobile services.");
-        params.put("To", request.getParameter("twilio_num"));
-        
-        SmsFactory msgFactory = client.getAccount().getSmsFactory();
-        try {
-            msg = msgFactory.create(params);
-        }
-        catch (TwilioRestException e) {
-            throw new ServletException(e);
-	}
+		} catch(Exception e){
+			System.out.println(e);
+		}
         out.println("Sent message id: " + msg.getSid());
 		
     }

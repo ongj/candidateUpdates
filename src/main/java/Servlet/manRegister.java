@@ -45,12 +45,9 @@ public class manRegister extends HttpServlet {
             bean.setLname((String) request.getParameter("lname"));
             bean.setPassword((String) request.getParameter("pass"));
 			bean.setIdCandidates(Integer.parseInt(request.getParameter("candidates")));
-			
-			System.out.println(bean.getIdCandidates());
             
             PostgreSQLClient db = new PostgreSQLClient();
-            //db.addManager(bean);
-            //out.print(db.getAllCandidates());
+            db.addManager(bean);
 			response.sendRedirect("index.jsp");
             
         }

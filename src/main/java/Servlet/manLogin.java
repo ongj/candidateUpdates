@@ -5,6 +5,7 @@
  */
 package Servlet;
 
+import Bean.Account;
 import Bean.Manager;
 import Bean.PostgreSQLClient;
 import java.io.IOException;
@@ -49,8 +50,8 @@ public class manLogin extends HttpServlet {
                 response.sendRedirect("manLogin.jsp");
             } else {
                 HttpSession s = request.getSession(true);
-                s.setAttribute("user", bean);
-                response.sendRedirect("candidates.jsp");
+                s.setAttribute("manager", bean);
+                response.sendRedirect("manHome.jsp");
             }
 
         }
