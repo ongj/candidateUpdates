@@ -543,11 +543,13 @@ public class PostgreSQLClient {
             statement.setString(2, bean.getPassword());
             results = statement.executeQuery();
             Manager a = new Manager();
+			while (results.next()) {
             a.setFname(results.getString("fname"));
             a.setLname(results.getString("lname"));
             a.setIdCandidates(results.getInt("idCandidates"));
             a.setIdManager(results.getInt("idManagers"));
             System.out.println(a.getFname());
+			}
             return a;
         } finally {
             if (results != null) {
@@ -561,7 +563,7 @@ public class PostgreSQLClient {
             if (connection != null) {
                 connection.close();
             }
-            return null;
+            //return null;
         }
     }
 }
