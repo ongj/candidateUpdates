@@ -4,6 +4,9 @@
     Author     : MCDO
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="Bean.Candidate"%>
+<%@page import="Bean.PostgreSQLClient"%>
 <%@page import="Bean.Account"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -16,17 +19,21 @@
     <%
 
         Account bean = (Account) request.getSession().getAttribute("user");
+        //ArrayList<Candidate> c = new ArrayList<>();
+        //PostgreSQLClient db = new PostgreSQLClient();
+        //db.getSubscription(bean);
+
 
     %>
 
     <h1>Hello <%= bean.getLname() + " " + bean.getFname()%></h1>
     <body>
-        <form method="POST" action="Subscribe">                                                           
-            <input type="checkbox" name="pres" value="Jejomar Binay"> Jejomar Binay<br>
-            <input type="checkbox" name="pres" value="Miriam Defensor Santiago"> Miriam Defensor Santiago<br>
-            <input type="checkbox" name="pres" value="Rodrigo Duterte"> Rodrigo Duterte<br>
-            <input type="checkbox" name="pres" value="Grace Poe"> Grace Poe<br>
-            <input type="checkbox" name="pres" value="Mar Roxas"> Mar Roxas<br>
+        <form method="POST" action="Subscribe">
+            <input type="checkbox" name="pres" value="1" > Rodrigo Duterte<br>
+            <input type="checkbox" name="pres" value="2"> Jejomar Binay<br>
+            <input type="checkbox" name="pres" value="3"> Miriam Defensor Santiago<br>            
+            <input type="checkbox" name="pres" value="4"> Grace Poe<br>
+            <input type="checkbox" name="pres" value="5"> Mar Roxas<br>
             <input type="submit" value="Subscribe">
         </form>
     </body>

@@ -5,6 +5,7 @@
  */
 package Servlet;
 
+import Bean.Account;
 import Bean.PostgreSQLClient;
 import Bean.Candidate;
 import java.io.IOException;
@@ -39,22 +40,22 @@ public class Subscribe extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
 
-            /* String[] pres;
+            String[] pres;
+            PostgreSQLClient db = new PostgreSQLClient();
+            Account user = (Account) request.getSession().getAttribute("user");
             pres = request.getParameterValues("pres");
             if (pres != null) {
                 for (int i = 0; i < pres.length; i++) {
-                    out.println("<b>" + pres[i] + "<b>");
+                    db.insertSubscribe(Integer.parseInt(pres[i]), user.getPhoneNum());
                 }
-            } else {
-                out.println("<b>none<b>");
             }
-             */
-            PostgreSQLClient db = new PostgreSQLClient();
-            ArrayList<Candidate> c = new ArrayList<>();
+            response.sendRedirect("candidates.jsp");
+            /*ArrayList<Candidate> c = new ArrayList<>();
             c = db.getAllCandidates();
             for (int i = 0; i < c.size(); i++) {
                 out.println(c.get(i).getIdCandidate());
             }
+             */
         }
     }
 

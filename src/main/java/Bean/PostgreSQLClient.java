@@ -348,7 +348,7 @@ public class PostgreSQLClient {
     }
 
     public int insertSubscribe(int idCandidate, String phoneNum) throws Exception {
-        String sql = "INSERT INTO Account (idCandidates,phoneNum) VALUES (?,?)";
+        String sql = "INSERT INTO Subscription (idCandidates,phoneNum) VALUES (?,?)";
         Connection connection = null;
         PreparedStatement statement = null;
 
@@ -373,6 +373,39 @@ public class PostgreSQLClient {
 
             throw e;
         } finally {
+            if (statement != null) {
+                statement.close();
+            }
+
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
+
+    public ArrayList<Candidate> getSubscription(Account bean) throws Exception {
+        String sql = "SELECT * FROM Subscription where phoneNum = ?;";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet results = null;
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(sql);
+            statement.setString(1, bean.getPhoneNum());
+            results = statement.executeQuery();
+            ArrayList<Candidate> beans = new ArrayList<>();
+            while (results.next()) {
+                Candidate c = new Candidate();
+                c.setIdCandidate(results.getInt("idCandidates"));               
+                beans.add(c);
+            }
+
+            return beans;
+        } finally {
+            if (results != null) {
+                results.close();
+            }
+
             if (statement != null) {
                 statement.close();
             }
