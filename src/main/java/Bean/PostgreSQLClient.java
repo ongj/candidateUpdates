@@ -466,7 +466,7 @@ public class PostgreSQLClient {
         return null;
     }
 
-    public Manager MloginCheck(Manager bean) throws Exception {
+    public Manager MloginCheck(Manager bean, PrintWriter out) throws Exception {
         String sql = "SELECT * FROM Managers where username = ? and password = ?";
         Connection connection = null;
         PreparedStatement statement = null;
@@ -478,10 +478,13 @@ public class PostgreSQLClient {
             statement.setString(2, bean.getPassword());
             results = statement.executeQuery();
             Manager a = new Manager();
+			while (results.next()) {
             a.setFname(results.getString("fname"));
             a.setLname(results.getString("lname"));
             a.setIdCandidates(results.getInt("idCandidates"));
             a.setIdManager(results.getInt("idManagers"));
+			System.out.println(a.getFname());
+			}
             System.out.println(a.getFname());
             return a;
         } finally {
@@ -496,7 +499,7 @@ public class PostgreSQLClient {
             if (connection != null) {
                 connection.close();
             }
-            return null;
+            //return null;
         }
     }
 }
