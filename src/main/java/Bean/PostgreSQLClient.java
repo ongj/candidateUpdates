@@ -1,5 +1,6 @@
 package Bean;
 
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -162,11 +163,6 @@ public class PostgreSQLClient {
         throw new Exception("No PostgreSQL service URL found. Make sure you have bound the correct services to your app.");
     }
 
-    /**
-     * Create the posts table if it doesn't already exist
-     *
-     * @throws Exception
-     */
     private void initialize() throws Exception {
         String sql = "CREATE TABLE IF NOT EXISTS Account("
                 + "phoneNum varchar(20) primary key, "
@@ -197,6 +193,7 @@ public class PostgreSQLClient {
                 + "lname varchar(10) "
                 + ");";
         createTables(sql);
+        /*
         sql = "CREATE TABLE IF NOT EXISTS Alerts ("
                 + "idAlerts serial primary key, "
                 + "idCandidates int references Managers(idCandidates), "
@@ -204,7 +201,7 @@ public class PostgreSQLClient {
                 + "message text "
                 + ");";
         createTables(sql);
-
+         */
         insertCandidates();
     }
 
@@ -423,22 +420,31 @@ public class PostgreSQLClient {
         return null;
     }
      */
-    public Account AloginCheck(Account bean) throws Exception {
-        String sql = "SELECT * FROM Account where phoneNum = ? and password = ?";
+    public Account AloginCheck(Account bean, PrintWriter out) throws Exception {
+        String sql = "SELECT * FROM Account where phoneNum = ? and password = ?;";
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet results = null;
+
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, bean.getPhoneNum());
             statement.setString(2, bean.getPass());
             results = statement.executeQuery();
+            //out.println("hello2");
             Account a = new Account();
-            a.setFname(results.getString("fname"));
-            a.setLname(results.getString("lname"));
-            a.setPhoneNum(results.getString("phoneNum"));
-            return bean;
+           
+            while (results.next()) {
+                a.setFname(results.getString("fname"));
+                a.setLname(results.getString("lname"));
+                a.setPhoneNum(results.getString("phoneNum"));
+            }
+            
+            return a;
+
+        } catch (SQLException e) {
+            out.println(e.getMessage());
         } finally {
             if (results != null) {
                 results.close();
@@ -451,8 +457,9 @@ public class PostgreSQLClient {
             if (connection != null) {
                 connection.close();
             }
-            return null;
+
         }
+        return null;
     }
 
     public Manager MloginCheck(Manager bean) throws Exception {
@@ -471,8 +478,8 @@ public class PostgreSQLClient {
             a.setLname(results.getString("lname"));
             a.setIdCandidates(results.getInt("idCandidates"));
             a.setIdManager(results.getInt("idManagers"));
-
-            return bean;
+            System.out.println(a.getFname());
+            return a;
         } finally {
             if (results != null) {
                 results.close();

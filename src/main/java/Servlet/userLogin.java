@@ -42,9 +42,9 @@ public class userLogin extends HttpServlet {
 
             bean.setPhoneNum((String) request.getParameter("twilio_num"));
             bean.setPass((String) request.getParameter("pass"));
-
             PostgreSQLClient db = new PostgreSQLClient();
-            bean = db.AloginCheck(bean);
+            bean = db.AloginCheck(bean, out);
+            //out.println(bean.getFname());
             if (bean == null) {
                 response.sendRedirect("userLogin.jsp");
             } else {
@@ -52,6 +52,7 @@ public class userLogin extends HttpServlet {
                 s.setAttribute("user", bean);
                 response.sendRedirect("candidates.jsp");
             }
+
         }
     }
 

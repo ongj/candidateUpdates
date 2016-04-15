@@ -13,11 +13,13 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Candidates</title>
     </head>
-    <% Account bean = (Account) request.getAttribute("user");
+    <%
+
+        Account bean = (Account) request.getSession().getAttribute("user");
 
     %>
 
-    <h1><%= bean.getLname() + " " + bean.getFname()%></h1>
+    <h1>Hello <%= bean.getLname() + " " + bean.getFname()%></h1>
     <body>
         <form method="POST" action="TwilioServlet">                                                           
             <input type="checkbox" name="pres" value="Jejomar Binay"> Jejomar Binay<br>
