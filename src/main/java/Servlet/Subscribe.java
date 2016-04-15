@@ -44,6 +44,7 @@ public class Subscribe extends HttpServlet {
             PostgreSQLClient db = new PostgreSQLClient();
 
             Account user = (Account) request.getSession().getAttribute("user");
+			//Account temp = (Account) request.getSession().getAttribute("details");
             db.deleteAllSubscription(user);
             pres = request.getParameterValues("pres");
             
@@ -51,6 +52,7 @@ public class Subscribe extends HttpServlet {
                 for (int i = 0; i < pres.length; i++) {
                     //out.println ("<b>"+pres[i]+"<b>");
                     db.insertSubscribe(Integer.parseInt(pres[i]), user.getPhoneNum());
+					//db.insertSubscribe(Integer.parseInt(pres[i]), user.getPhoneNum(), temp.getFname(), temp.getLname());
                 }
             }
             

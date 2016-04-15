@@ -39,10 +39,11 @@ public class manLogin extends HttpServlet {
             throws ServletException, IOException, Exception {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+			
             Manager bean = new Manager();
 
             bean.setUname((String) request.getParameter("username"));
-            bean.setPassword((String) request.getParameter("password"));
+            bean.setPassword((String) request.getParameter("pass"));
             PostgreSQLClient db = new PostgreSQLClient();
             bean = db.MloginCheck(bean, out);
             //out.println(bean.getFname());

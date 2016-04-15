@@ -123,9 +123,10 @@ public class TwilioServlet extends HttpServlet {
 			a = db.getSubscriptions(bean);
 		
 		for(int i=0; i < a.size(); i++){
-			params.put("From", "+12016902137");
+			params.put("From", "+12015286981");
 			params.put("Body", request.getParameter("smsmsg"));
 			params.put("To", a.get(i).getPhoneNum());
+			System.out.println(a.get(i).getPhoneNum());
 			
 			SmsFactory msgFactory = client.getAccount().getSmsFactory();
 			try {
@@ -138,7 +139,8 @@ public class TwilioServlet extends HttpServlet {
 		} catch(Exception e){
 			System.out.println(e);
 		}
-        out.println("Sent message id: " + msg.getSid());
+		response.sendRedirect("manHome.jsp");
+        //out.println("Sent message id: " + msg.getSid());
 		
     }
 

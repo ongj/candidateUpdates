@@ -366,6 +366,42 @@ public class PostgreSQLClient {
             }
         }
     }
+	
+	public Account getAccount(String phoneNum) throws Exception {
+        String sql = "SELECT * FROM Account where phoneNum = ?;";
+        Connection connection = null;
+        PreparedStatement statement = null;
+        ResultSet results = null;
+        try {
+            connection = getConnection();
+            statement = connection.prepareStatement(sql);
+            results = statement.executeQuery();
+            Account bean = new Account();
+            while (results.next()) {
+                bean.setFname(results.getString("fname"));
+                bean.setLname(results.getString("lname"));
+				bean.setPhoneNum(results.getString("phoneNum"));
+				System.out.println(bean.getFname());
+            }
+
+            return bean;
+        } catch(Exception e){
+			System.out.println(e);
+			return null;
+		} finally {
+            if (results != null) {
+                results.close();
+            }
+
+            if (statement != null) {
+                statement.close();
+            }
+
+            if (connection != null) {
+                connection.close();
+            }
+        }
+    }
 
     public int insertSubscribe(int idCandidate, String phoneNum) throws Exception {
         String sql = "INSERT INTO Subscription (idCandidates,phoneNum) VALUES (?,?)";
@@ -378,7 +414,9 @@ public class PostgreSQLClient {
             statement = connection.prepareStatement(sql);
             statement.setInt(1, idCandidate);
             statement.setString(2, phoneNum);
-            statement.addBatch();
+            //statement.setString(3, fname);
+			//statement.setString(4, lname);
+			statement.addBatch();
 
             int[] rows = statement.executeBatch();
             connection.commit();
@@ -458,14 +496,17 @@ public class PostgreSQLClient {
             results = statement.executeQuery();
             //out.println("hello2");
 			
-			Account a = new Account();
             ArrayList<Account> list = new ArrayList<Account>();
 
             while (results.next()) {
+				Account a = new Account();
                 a.setFname(results.getString("fname"));
                 a.setLname(results.getString("lname"));
                 a.setPhoneNum(results.getString("phoneNum"));
 				list.add(a);
+				System.out.println(a.getPhoneNum());
+				System.out.println(a.getFname());
+				System.out.println(a.getLname());
             }
 
             return list;
@@ -494,7 +535,9 @@ public class PostgreSQLClient {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet results = null;
-
+		boolean check = false;
+		Account a = new Account();
+		
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
@@ -502,16 +545,13 @@ public class PostgreSQLClient {
             statement.setString(2, bean.getPass());
             results = statement.executeQuery();
             //out.println("hello2");
-            Account a = new Account();
-
+            
             while (results.next()) {
                 a.setFname(results.getString("fname"));
                 a.setLname(results.getString("lname"));
                 a.setPhoneNum(results.getString("phoneNum"));
+				check = true;
             }
-
-            return a;
-
         } catch (SQLException e) {
             out.println(e.getMessage());
         } finally {
@@ -526,9 +566,11 @@ public class PostgreSQLClient {
             if (connection != null) {
                 connection.close();
             }
-
+			if(check)
+				return a;
+			else
+				return null;
         }
-        return null;
     }
 
     public Manager MloginCheck(Manager bean, PrintWriter out) throws Exception {
@@ -536,21 +578,24 @@ public class PostgreSQLClient {
         Connection connection = null;
         PreparedStatement statement = null;
         ResultSet results = null;
+		boolean check = false;
+		Manager a = new Manager();
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
             statement.setString(1, bean.getUname());
             statement.setString(2, bean.getPassword());
             results = statement.executeQuery();
-            Manager a = new Manager();
+            
 			while (results.next()) {
             a.setFname(results.getString("fname"));
             a.setLname(results.getString("lname"));
             a.setIdCandidates(results.getInt("idCandidates"));
             a.setIdManager(results.getInt("idManagers"));
             System.out.println(a.getFname());
+			check = true;
 			}
-            return a;
+			
         } finally {
             if (results != null) {
                 results.close();
@@ -563,7 +608,12 @@ public class PostgreSQLClient {
             if (connection != null) {
                 connection.close();
             }
-            //return null;
+			System.out.println(check);
+			if(check)
+				return a;
+			else
+				return null;
         }
+		
     }
 }

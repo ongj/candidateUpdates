@@ -39,17 +39,20 @@ public class userLogin extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             Account bean = new Account();
+			//Account temp = new Account();
 
             bean.setPhoneNum((String) request.getParameter("twilio_num"));
             bean.setPass((String) request.getParameter("pass"));
             PostgreSQLClient db = new PostgreSQLClient();
             bean = db.AloginCheck(bean, out);
+			//temp = db.getAccount(bean.getPhoneNum());
             //out.println(bean.getFname());
             if (bean == null) {
                 response.sendRedirect("userLogin.jsp");
             } else {
                 HttpSession s = request.getSession(true);
                 s.setAttribute("user", bean);
+				//s.setAttribute("details", temp);
                 response.sendRedirect("candidates.jsp");
             }
 
