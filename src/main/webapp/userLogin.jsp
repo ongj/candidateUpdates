@@ -17,7 +17,7 @@
         <form method="POST" action="userLogin">                                                           
             Phone Number: <input name="twilio_num" id="twilio_num" type="text" value="" placeholder="+639123456789">
             Password: <input name="pass" id="pass" type="password" value="">            
-            <input type="submit" value="Register">
+            <input type="submit" value="Login">
         </form>
     </body>
 </html>

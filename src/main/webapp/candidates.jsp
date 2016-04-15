@@ -21,13 +21,13 @@
 
     <h1>Hello <%= bean.getLname() + " " + bean.getFname()%></h1>
     <body>
-        <form method="POST" action="TwilioServlet">                                                           
+        <form method="POST" action="Subscribe">                                                           
             <input type="checkbox" name="pres" value="Jejomar Binay"> Jejomar Binay<br>
             <input type="checkbox" name="pres" value="Miriam Defensor Santiago"> Miriam Defensor Santiago<br>
             <input type="checkbox" name="pres" value="Rodrigo Duterte"> Rodrigo Duterte<br>
             <input type="checkbox" name="pres" value="Grace Poe"> Grace Poe<br>
             <input type="checkbox" name="pres" value="Mar Roxas"> Mar Roxas<br>
-            <input type="submit" value="Submit">
+            <input type="submit" value="Subscribe">
         </form>
     </body>
 </html>

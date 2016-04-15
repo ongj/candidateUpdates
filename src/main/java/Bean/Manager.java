@@ -9,7 +9,7 @@ package Bean;
  *
  * @author Lance
  */
-class Manager {
+public class Manager {
 
     private String uname;
     private String password;
@@ -19,7 +19,7 @@ class Manager {
     private String lname;
 
     public Manager() {
-        
+
     }
 
     public String getUname() {
@@ -70,5 +70,4 @@ class Manager {
         this.lname = lname;
     }
 
- 
 }

@@ -172,7 +172,7 @@ public class PostgreSQLClient {
                 + ");";
         createTables(sql);
         sql = "CREATE TABLE IF NOT EXISTS Candidates("
-                + "idCandidates serial primary key, "
+                + "idCandidates int primary key, "
                 + "fname varchar(10), "
                 + "lname varchar(10) "
                 + ");";
@@ -225,7 +225,7 @@ public class PostgreSQLClient {
     }
 
     private int insertCandidates() throws Exception {
-        String sql = "INSERT INTO Candidates (fname,lname) VALUES (?,?);";
+        String sql = "INSERT INTO Candidates (idCandidates,fname,lname) VALUES (?,?,?);";
         Connection connection = null;
         PreparedStatement statement = null;
 
@@ -233,21 +233,25 @@ public class PostgreSQLClient {
             connection = getConnection();
             connection.setAutoCommit(false);
             statement = connection.prepareStatement(sql);
-
-            statement.setString(1, "Rodrigo");
-            statement.setString(2, "Duterte");
+            statement.setInt(1, 1);
+            statement.setString(2, "Rodrigo");
+            statement.setString(3, "Duterte");
             statement.addBatch();
-            statement.setString(1, "Jejomar");
-            statement.setString(2, "Binay");
+            statement.setInt(1, 2);
+            statement.setString(2, "Jejomar");
+            statement.setString(3, "Binay");
             statement.addBatch();
-            statement.setString(1, "Miriam");
-            statement.setString(2, "Santiago");
+            statement.setInt(1, 3);
+            statement.setString(2, "Miriam");
+            statement.setString(3, "Santiago");
             statement.addBatch();
-            statement.setString(1, "Grace");
-            statement.setString(2, "Poe");
+            statement.setInt(1, 4);
+            statement.setString(2, "Grace");
+            statement.setString(3, "Poe");
             statement.addBatch();
-            statement.setString(1, "Mar");
-            statement.setString(2, "Roxas");
+            statement.setInt(1, 5);
+            statement.setString(2, "Mar");
+            statement.setString(3, "Roxas");
             statement.addBatch();
             int[] rows = statement.executeBatch();
             connection.commit();
@@ -434,13 +438,13 @@ public class PostgreSQLClient {
             results = statement.executeQuery();
             //out.println("hello2");
             Account a = new Account();
-           
+
             while (results.next()) {
                 a.setFname(results.getString("fname"));
                 a.setLname(results.getString("lname"));
                 a.setPhoneNum(results.getString("phoneNum"));
             }
-            
+
             return a;
 
         } catch (SQLException e) {

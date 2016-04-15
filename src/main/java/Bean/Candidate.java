@@ -9,7 +9,7 @@ package Bean;
  *
  * @author Lance
  */
-class Candidate {
+public class Candidate {
 
     private int idCandidate;
     private String fname;
