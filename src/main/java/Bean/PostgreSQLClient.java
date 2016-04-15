@@ -109,13 +109,14 @@ public class PostgreSQLClient {
         }
     }
 
-    public int deleteAll() throws Exception {
-        String sql = "DELETE FROM posts WHERE TRUE";
+    public int deleteAllSubscription(Account bean) throws Exception {
+        String sql = "DELETE FROM Subscription WHERE phoneNum = ?";
         Connection connection = null;
         PreparedStatement statement = null;
         try {
             connection = getConnection();
             statement = connection.prepareStatement(sql);
+            statement.setString(1, bean.getPhoneNum());
             return statement.executeUpdate();
         } finally {
             if (statement != null) {
@@ -396,7 +397,7 @@ public class PostgreSQLClient {
             ArrayList<Candidate> beans = new ArrayList<>();
             while (results.next()) {
                 Candidate c = new Candidate();
-                c.setIdCandidate(results.getInt("idCandidates"));               
+                c.setIdCandidate(results.getInt("idCandidates"));
                 beans.add(c);
             }
 

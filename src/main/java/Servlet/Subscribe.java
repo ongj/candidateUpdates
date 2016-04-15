@@ -42,14 +42,17 @@ public class Subscribe extends HttpServlet {
 
             String[] pres;
             PostgreSQLClient db = new PostgreSQLClient();
+
             Account user = (Account) request.getSession().getAttribute("user");
+            db.deleteAllSubscription(user);
             pres = request.getParameterValues("pres");
             if (pres != null) {
                 for (int i = 0; i < pres.length; i++) {
+                     //out.println ("<b>"+pres[i]+"<b>");
                     db.insertSubscribe(Integer.parseInt(pres[i]), user.getPhoneNum());
                 }
             }
-            response.sendRedirect("candidates.jsp");
+            //response.sendRedirect("candidates.jsp");
             /*ArrayList<Candidate> c = new ArrayList<>();
             c = db.getAllCandidates();
             for (int i = 0; i < c.size(); i++) {
