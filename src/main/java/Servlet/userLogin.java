@@ -46,7 +46,7 @@ public class userLogin extends HttpServlet {
             PostgreSQLClient db = new PostgreSQLClient();
             bean = db.AloginCheck(bean);
             if (bean == null) {
-                response.sendRedirect("userLogin");
+                response.sendRedirect("userLogin.jsp");
             } else {
                 HttpSession s = request.getSession(true);
                 s.setAttribute("user", bean);

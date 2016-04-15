@@ -29,8 +29,6 @@ public class PostgreSQLClient {
      * @return List of Strings of text from PostgreSQL
      * @throws Exception
      */
-    
-
     public int addAccount(Account bean) throws Exception {
         String sql = "INSERT INTO Account (phoneNum,password,fname,lname) VALUES (?,?,?,?)";
         Connection connection = null;
@@ -193,14 +191,16 @@ public class PostgreSQLClient {
         sql = "CREATE TABLE IF NOT EXISTS Managers ("
                 + "idManagers serial primary key, "
                 + "idCandidates int references Candidates(idCandidates), "
+                + "username varchar(10), "
+                + "password varchar(10), "
                 + "fname varchar(10), "
                 + "lname varchar(10) "
                 + ");";
         createTables(sql);
         sql = "CREATE TABLE IF NOT EXISTS Alerts ("
                 + "idAlerts serial primary key, "
-                + "idCandidates references Managers(idCandidates), "
-                + "idManagers  references Managers(idManagers), "
+                + "idCandidates int references Managers(idCandidates), "
+                + "idManagers  int references Managers(idManagers), "
                 + "message text "
                 + ");";
         createTables(sql);
@@ -381,7 +381,8 @@ public class PostgreSQLClient {
             }
         }
     }
-/*
+
+    /*
     public Alerts getAlerts(String phoneNum) throws Exception {
         String sql = "select a.* from alerts a, account_has_candidates ac where ac.idCandidates = a.idCandidates and ac.phoneNum = ?;";
 
@@ -421,7 +422,7 @@ public class PostgreSQLClient {
         }
         return null;
     }
-*/
+     */
     public Account AloginCheck(Account bean) throws Exception {
         String sql = "SELECT * FROM Account where phoneNum = ? and password = ?";
         Connection connection = null;
@@ -450,8 +451,8 @@ public class PostgreSQLClient {
             if (connection != null) {
                 connection.close();
             }
-			return null;
-		}
+            return null;
+        }
     }
 
     public Manager MloginCheck(Manager bean) throws Exception {
@@ -470,8 +471,7 @@ public class PostgreSQLClient {
             a.setLname(results.getString("lname"));
             a.setIdCandidates(results.getInt("idCandidates"));
             a.setIdManager(results.getInt("idManagers"));
-            
-            
+
             return bean;
         } finally {
             if (results != null) {
@@ -485,7 +485,7 @@ public class PostgreSQLClient {
             if (connection != null) {
                 connection.close();
             }
-			return null;
-		}
+            return null;
+        }
     }
 }
